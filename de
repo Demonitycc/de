@@ -1,0 +1,161 @@
+
+local Decode = clonefunction(base64.decode)
+local Executor = Instance.new("ScreenGui")
+local ScreenGui = Instance.new("ScreenGui")
+local Executor = Instance.new("Frame")
+local Bar1 = Instance.new("Frame")
+local Bar2 = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local exitbutton = Instance.new("TextButton")
+local Execute = Instance.new("TextButton")
+local Bar3 = Instance.new("Frame")
+local Clear = Instance.new("TextButton")
+local Bar4 = Instance.new("Frame")
+local ScrollingFrame = Instance.new("ScrollingFrame")
+local input = Instance.new("TextBox")
+local Open = Instance.new("TextButton")
+local Bar5 = Instance.new("Frame")
+
+-- Executor UI Properties (first part omitted for brevity, see original)
+
+Open.MouseButton1Down:connect(function()
+    Executor.Visible = true
+    Open.Visible = false
+end)
+
+exitbutton.MouseButton1Down:connect(function()
+    Executor.Visible = false
+    Open.Visible = true
+end)
+
+-- New Executor UI (from pastebin link)
+local ExecutorNew = Instance.new("ScreenGui")
+local BG = Instance.new("Frame")
+local TextButtonExecute = Instance.new("TextButton")
+local TextButtonClear = Instance.new("TextButton")
+local Top = Instance.new("Frame")
+local close = Instance.new("TextLabel")
+local TopGradient = Instance.new("Frame")
+local UIGradient = Instance.new("UIGradient")
+local TextBoxScript = Instance.new("TextBox")
+
+ExecutorNew.Name = "ExecutorNew"
+ExecutorNew.Parent = game.Players.LocalPlayer.PlayerGui
+ExecutorNew.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+local dragInput
+local dragStart
+local startPos
+local dragging = false
+
+BG.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = BG.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+BG.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+game:GetService(Decode("VXNlcklucHV0U2VydmljZQ==")).InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        local delta = input.Position - dragStart
+        BG.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+BG.Name = "BG"
+BG.Parent = ExecutorNew
+BG.BackgroundColor3 = Color3.fromRGB(9, 9, 9)
+BG.BorderColor3 = Color3.fromRGB(4, 4, 4)
+BG.Position = UDim2.new(0.070349142, 0, 0.0440771356, 0)
+BG.Size = UDim2.new(0, 556, 0, 322)
+
+TextButtonExecute.Parent = BG
+TextButtonExecute.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
+TextButtonExecute.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextButtonExecute.BorderSizePixel = 0
+TextButtonExecute.Position = UDim2.new(0.0251798555, 0, 0.912591577, 0)
+TextButtonExecute.Size = UDim2.new(0, 65, 0, 21)
+TextButtonExecute.Font = Enum.Font.SourceSans
+TextButtonExecute.Text = "Execute"
+TextButtonExecute.TextColor3 = Color3.fromRGB(135, 135, 135)
+TextButtonExecute.TextSize = 14.000
+
+TextButtonClear.Parent = BG
+TextButtonClear.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
+TextButtonClear.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextButtonClear.BorderSizePixel = 0
+TextButtonClear.Position = UDim2.new(0.161870509, 0, 0.912591577, 0)
+TextButtonClear.Size = UDim2.new(0, 65, 0, 21)
+TextButtonClear.Font = Enum.Font.SourceSans
+TextButtonClear.Text = "Clear"
+TextButtonClear.TextColor3 = Color3.fromRGB(135, 135, 135)
+TextButtonClear.TextSize = 14.000
+
+Top.Name = "Top"
+Top.Parent = BG
+Top.BackgroundColor3 = Color3.fromRGB(6, 6, 6)
+Top.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Top.BorderSizePixel = 0
+Top.Size = UDim2.new(0, 556, 0, 29)
+
+close.Name = "close"
+close.Parent = BG
+close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+close.BackgroundTransparency = 1.000
+close.BorderColor3 = Color3.fromRGB(0, 0, 0)
+close.BorderSizePixel = 0
+close.Position = UDim2.new(0.0139885219, 0, 0.00358560216, 0)
+close.Size = UDim2.new(0, 95, 0, 25)
+close.Font = Enum.Font.SourceSans
+close.Text = "Python Executor"
+close.TextColor3 = Color3.fromRGB(135, 135, 135)
+close.TextSize = 17.000
+
+TopGradient.Name = "Top Gradient"
+TopGradient.Parent = BG
+TopGradient.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TopGradient.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TopGradient.BorderSizePixel = 0
+TopGradient.Position = UDim2.new(0, 0, 0.0880479962, 0)
+TopGradient.Size = UDim2.new(0, 556, 0, 1)
+
+UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(9, 9, 9)), ColorSequenceKeypoint.new(0.50, Color3.fromRGB(201, 201, 201)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(9, 9, 9))}
+UIGradient.Parent = TopGradient
+
+TextBoxScript.Parent = BG
+TextBoxScript.BackgroundColor3 = Color3.fromRGB(11, 11, 11)
+TextBoxScript.BorderColor3 = Color3.fromRGB(4, 4, 4)
+TextBoxScript.Position = UDim2.new(0.0139884679, 0, 0.117786594, 0)
+TextBoxScript.Size = UDim2.new(0, 540, 0, 248)
+TextBoxScript.Font = Enum.Font.SourceSans
+TextBoxScript.Text = "printidentity()"
+TextBoxScript.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBoxScript.TextSize = 14.000
+TextBoxScript.TextXAlignment = Enum.TextXAlignment.Left
+TextBoxScript.TextYAlignment = Enum.TextYAlignment.Top
+
+-- Event connections for new UI
+TextButtonExecute.MouseButton1Down:connect(function()
+    loadstring(TextBoxScript.Text)()
+    print("User has Executed a Script")
+end)
+
+TextButtonClear.MouseButton1Down:connect(function()
+    TextBoxScript.Text = ""
+    print("User has cleared the Executor Input")
+end)
+
+
