@@ -1,5 +1,4 @@
 
-local Decode = clonefunction(base64.decode)
 local Executor = Instance.new("ScreenGui")
 local ScreenGui = Instance.new("ScreenGui")
 local Executor = Instance.new("Frame")
@@ -15,8 +14,7 @@ local ScrollingFrame = Instance.new("ScrollingFrame")
 local input = Instance.new("TextBox")
 local Open = Instance.new("TextButton")
 local Bar5 = Instance.new("Frame")
-
--- Executor UI Properties (first part omitted for brevity, see original)
+local UserInputService = game:GetService("UserInputService")
 
 Open.MouseButton1Down:connect(function()
     Executor.Visible = true
@@ -68,7 +66,7 @@ BG.InputChanged:Connect(function(input)
     end
 end)
 
-game:GetService(Decode("VXNlcklucHV0U2VydmljZQ==")).InputChanged:Connect(function(input)
+UserInputService.InputChanged:Connect(function(input)
     if input == dragInput and dragging then
         local delta = input.Position - dragStart
         BG.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
